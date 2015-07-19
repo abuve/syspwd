@@ -1,0 +1,46 @@
+{% include 'header.html' %}
+
+      <!-- BEGIN PAGE -->
+      <div class="page-content">
+         <!-- BEGIN PAGE HEADER-->
+         <div class="row">
+            <div class="col-md-12">
+               <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+               <h3 class="page-title">
+                  系统管理 <small>系统提示</small>
+               </h3>
+               <ul class="page-breadcrumb breadcrumb">
+                  <li>
+                     <i class="icon-home"></i>
+                     <a href="#">Home</a>
+                     <i class="icon-angle-right"></i>
+                  </li>
+                  <li><a href="#">系统提示</a></li>
+                  <li class="pull-right">
+                     <div id="dashboard-report-range" class="dashboard-date-range tooltips" data-placement="top" data-original-title="Change dashboard date range">
+                        <i class="icon-calendar"></i>
+                        <span></span>
+                        <i class="icon-angle-down"></i>
+                     </div>
+                  </li>
+               </ul>
+               <!-- END PAGE TITLE & BREADCRUMB-->
+            </div>
+         </div>
+         <!-- END PAGE HEADER-->
+
+               <div class="portlet box red">
+                  <div class="portlet-title">
+                     <div class="caption"><i class="icon-reorder"></i>操作提示</div>
+                     <div class="tools">
+                        <a href="javascript:;" class="collapse"></a>
+                     </div>
+                  </div>
+                  <div class="portlet-body" style="min-height:600px;">
+			{{prompt_data|safe}}
+		  </br>
+		  <a class="btn green" href="/">返回首页</a>	  
+                  </div>
+               </div>
+
+{% include 'footer.html' %}

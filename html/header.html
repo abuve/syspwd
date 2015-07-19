@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<head>
+   <meta charset="utf-8" />
+   <title>Linux主机密码集中管理系统V1.0</title>
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+   <!-- BEGIN GLOBAL MANDATORY STYLES -->          
+   <link href="/static/css/custom.css" rel="stylesheet" type="text/css"/>
+   <link href="/static/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+   <link href="/static/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+   <link href="/static/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css"/>
+   <!-- END GLOBAL MANDATORY STYLES -->
+   <!-- BEGIN PAGE LEVEL PLUGIN STYLES --> 
+   <link href="/static/plugins/gritter/css/jquery.gritter.css" rel="stylesheet" type="text/css"/>
+   <link href="/static/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css" />
+   <link href="/static/plugins/fullcalendar/fullcalendar/fullcalendar.css" rel="stylesheet" type="text/css"/>
+   <link href="/static/plugins/jqvmap/jqvmap/jqvmap.css" rel="stylesheet" type="text/css"/>
+   <link href="/static/plugins/jquery-easy-pie-chart/jquery.easy-pie-chart.css" rel="stylesheet" type="text/css"/>
+
+
+   <link rel="stylesheet" type="text/css" href="/static/plugins/bootstrap-fileupload/bootstrap-fileupload.css" />
+   <link rel="stylesheet" type="text/css" href="/static/plugins/gritter/css/jquery.gritter.css" />
+   <link rel="stylesheet" type="text/css" href="/static/plugins/select2/select2_metro.css" />
+   <link rel="stylesheet" type="text/css" href="/static/plugins/clockface/css/clockface.css" />
+   <link rel="stylesheet" type="text/css" href="/static/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.css" />
+   <link rel="stylesheet" type="text/css" href="/static/plugins/bootstrap-datepicker/css/datepicker.css" />
+   <link rel="stylesheet" type="text/css" href="/static/plugins/bootstrap-timepicker/compiled/timepicker.css" />
+   <link rel="stylesheet" type="text/css" href="/static/plugins/bootstrap-colorpicker/css/colorpicker.css" />
+   <link rel="stylesheet" type="text/css" href="/static/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css" />
+   <link rel="stylesheet" type="text/css" href="/static/plugins/bootstrap-datetimepicker/css/datetimepicker.css" />
+   <link rel="stylesheet" type="text/css" href="/static/plugins/jquery-multi-select/css/multi-select.css" />
+   <link rel="stylesheet" type="text/css" href="/static/plugins/bootstrap-switch/static/stylesheets/bootstrap-switch-metro.css"/>
+   <link rel="stylesheet" type="text/css" href="/static/plugins/jquery-tags-input/jquery.tagsinput.css" />
+   <link rel="stylesheet" type="text/css" href="/static/plugins/bootstrap-markdown/css/bootstrap-markdown.min.css">
+   <link rel="stylesheet" href="/static/plugins/data-tables/DT_bootstrap.css" />
+   <script src="/static/plugins/jquery-1.10.2.min.js"></script>
+   <!--<script src="/static/plugins/jquery.cookie.min.js" type="text/javascript"></script>-->
+
+   <!-- END PAGE LEVEL PLUGIN STYLES -->
+   <!-- BEGIN THEME STYLES --> 
+   <link href="/static/css/style-metronic.css" rel="stylesheet" type="text/css"/>
+   <link href="/static/css/style.css" rel="stylesheet" type="text/css"/>
+   <link href="/static/css/style-responsive.css" rel="stylesheet" type="text/css"/>
+   <link href="/static/css/plugins.css" rel="stylesheet" type="text/css"/>
+   <link href="/static/css/pages/tasks.css" rel="stylesheet" type="text/css"/>
+   <link href="/static/css/themes/default.css" rel="stylesheet" type="text/css" id="style_color"/>
+   <link href="/static/css/pages/profile.css" rel="stylesheet" type="text/css" />
+   <!-- END THEME STYLES -->
+   <link rel="shortcut icon" href="favicon.ico" />
+</head>
+<!-- END HEAD -->
+<!-- BEGIN BODY -->
+<body class="page-header-fixed">
+   <!-- BEGIN HEADER -->   
+   <div class="header navbar navbar-inverse navbar-fixed-top">
+      <!-- BEGIN TOP NAVIGATION BAR -->
+      <div class="header-inner">
+         <!-- BEGIN LOGO -->  
+         <a class="navbar-brand" href="/">
+         <!--<img src="/static/img/logo.png" alt="logo" class="img-responsive" />-->
+	 &nbsp;&nbsp;密码管理系统V1.0
+         </a>
+         <!-- END LOGO -->
+         <!-- BEGIN RESPONSIVE MENU TOGGLER --> 
+         <a href="javascript:;" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+         <img src="/static/img/menu-toggler.png" alt="" />
+         </a> 
+         <!-- END RESPONSIVE MENU TOGGLER -->
+         <!-- BEGIN TOP NAVIGATION MENU -->
+         <!-- END TOP NAVIGATION MENU -->
+      </div>
+      <!-- END TOP NAVIGATION BAR -->
+   </div>
+   <!-- END HEADER -->
+   <div class="clearfix"></div>
+   <!-- BEGIN CONTAINER -->
+   <div class="page-container">
+      <!-- BEGIN SIDEBAR -->
+      <div class="page-sidebar navbar-collapse collapse" style="min-height:850px;">
+         <!-- BEGIN SIDEBAR MENU -->        
+         <ul class="page-sidebar-menu">
+            <li>
+               <!-- BEGIN SIDEBAR TOGGLER BUTTON -->
+               <div class="sidebar-toggler hidden-phone"></div>
+               <!-- BEGIN SIDEBAR TOGGLER BUTTON -->
+            </li>
+            <li>
+               <!-- BEGIN RESPONSIVE QUICK SEARCH FORM -->
+               <form class="sidebar-search" action="extra_search.html" method="POST">
+                  <div class="form-container">
+                     <div class="input-box">
+                        <a href="javascript:;" class="remove"></a>
+                        <input type="text" placeholder="Search..."/>
+                        <input type="button" class="submit" value=" "/>
+                     </div>
+                  </div>
+               </form>
+               <!-- END RESPONSIVE QUICK SEARCH FORM -->
+            </li>
+	    {%ifequal url_tag 'index'%}
+            <li class="start active">
+	    {%else%}
+	    <li>
+	    {%endifequal%}
+               <a href="/">
+               <i class="icon-home"></i> 
+               <span class="title">用户/密码管理</span>
+               <span class="selected"></span>
+               </a>
+            </li>
+            {%ifequal url_tag 'download'%}
+            <li class="start active">
+            {%else%}
+            <li>
+            {%endifequal%}
+               <a href="/download/">
+               <i class="icon-folder-open"></i> 
+               <span class="title">客户端下载/帮助</span>
+               <span class="selected"></span>
+               </a>
+            </li>
+
+            <!--<li class="">
+               <a href="javascript:;">
+               <i class="icon-map-marker"></i> 
+               <span class="title">Maps</span>
+               <span class="arrow "></span>
+               </a>
+               <ul class="sub-menu">
+                  <li >
+                     <a href="maps_google.html">
+                     Google Maps</a>
+                  </li>
+                  <li >
+                     <a href="maps_vector.html">
+                     Vector Maps</a>
+                  </li>
+               </ul>
+            </li>-->
+         </ul>
+         <!-- END SIDEBAR MENU -->
+      </div>

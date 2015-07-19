@@ -1,0 +1,52 @@
+{% include 'header.html' %}      
+<!-- BEGIN PAGE -->
+      <div class="page-content">
+         <!-- BEGIN PAGE HEADER-->
+         <div class="row">
+            <div class="col-md-12">
+               <!-- BEGIN PAGE TITLE & BREADCRUMB-->
+               <h3 class="page-title">
+                  系统管理 <small>客户端下载/帮助</small>
+               </h3>
+               <ul class="page-breadcrumb breadcrumb">
+                  <li>
+                     <i class="icon-home"></i>
+                     <a href="#">Home</a>
+                     <i class="icon-angle-right"></i>
+                  </li>
+                  <li>
+                     <a href="#">客户端下载/帮助</a>
+                  </li>
+               </ul>
+               <!-- END PAGE TITLE & BREADCRUMB-->
+            </div>
+         </div>
+         <!-- END PAGE HEADER-->
+         <!-- BEGIN PAGE CONTENT-->
+         <div class="row margin-bottom-30" style="min-height:800px;">
+            <div class="col-md-6">
+               <p>host_passwd工具可以对主机用户口令进行集中管理，只要在后台配置好用户密码，客户端即可将服务端配置好的口令同步到本地，减少输入密码成本及人工操作失误的几率，同时服务端存储的密码均为多次加密算法后的密文数据，避免明文传输造成口令泄漏</p>
+	       <p><b>命令选项</b></p>
+		<ol>
+		<li>host_passwd -u [username]&nbsp;&nbsp;&nbsp;同步修改指定用户口令</li>
+		<li>host_passwd -a&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;同时修改主机root、admin用户口令(加入到系统rc.local中，可以实现开机同步口令)</li>
+		</ol>
+	       <p><b>工具特性</b></p>
+               <ul class="list-unstyled  margin-top-10 margin-bottom-10">
+                  <li><i class="icon-ok"></i>预编译python环境，客户端对python环境无要求，安装后即可执行</li>
+                  <li><i class="icon-ok"></i>明文密码经过ASE与base64双层加密，确保口令安全</li>
+                  <li><i class="icon-ok"></i>http通讯采用keys安全认证，提高数据传输安全性</li>
+               </ul>
+               <!-- Blockquotes -->
+               <blockquote class="hero">
+                  <p><a href="/static/download/host_passwd-1.0-x86_64.tar.gz">点击下载：host_passwd-1.0-x86_64.tar.gz</a></p>
+                  <small>在Linux系统可执行wget http://服务器地址及端口号/static/download/host_passwd下载</small>
+                  <small>将host_passwd工具放在Linux系统的/sbin目录下并赋权755，即可执行</small>
+               </blockquote>
+            </div>
+            <!--<div class="col-md-6">
+               <iframe src="http://player.vimeo.com/video/22439234" style="width:100%; height:327px;border:0" allowfullscreen></iframe> 
+            </div>-->
+         </div>
+
+{% include 'footer.html' %}

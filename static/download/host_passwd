@@ -1,0 +1,141 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+# Jd.Com servers password tools.
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+# Title:        jos_passwd
+# Description:  This tools can be change system's user password.
+# Copyright:    Copyright (c) 2015
+# Company:  Jd.Com
+# @ author: Buhe
+# @ version 1.0
+# @ email:  buhe@jd.com
+# -------------------------------------------------
+# Import python module
+
+# AES加密模块,对字符串进行加解密
+from Crypto.Cipher import AES
+from Crypto import Random
+# Python http协议交互模块,用于向服务器发起POST请求
+import urllib2, urllib
+# 二进制转换模块
+import binascii
+# Python常用系统模块
+import sys
+import json
+import commands
+import traceback
+
+# 定义服务器URL路径(这里根据自己服务器情况修改)
+server = 'http://127.0.0.1:9001/get_data/'
+# 定义通讯keys,用于客户端合法性验证
+keys = 'custom_your_keys'
+# 服务器请求超时时间
+repeat_times = 3
+
+# 判断当前用户是否为root
+current_user = commands.getstatusoutput("/usr/bin/id -u")
+if current_user[1] !='0':
+    print "[%s] Permission denied, Only root can be run this command." %sys.argv[0]
+    sys.exit()
+
+# 定义脚本帮助说明
+help_text = '''Usage: jos_passwd [OPTION...] <accountName>
+    -u, --user        Change username password (root only)
+    -a, --all         Change username admin and root password (root only)
+
+Help options:
+    -?,-h,--help      Show this help message'''
+
+# 定义POST数据请求方法
+def post_action():
+        try:
+                # 向Server端发起POST请求,3次尝试失败后退出
+                for i in range(1,4):
+                        try:
+                            post = urllib2.urlopen(
+                                url = server,
+                                data = urllib.urlencode(post_data),
+                                timeout = 30,
+                            )
+                            break
+                        except Exception,e:
+                            print 'Error: %s, This is %s time to try, 3 times later will be exit.' %(e,i)
+                            if i >=3:
+                                print 'Contact administrator please.'
+                                sys.exit()
+
+                # 对获取的数据进行格式化
+                data_dic = json.loads(post.read())
+
+                # 根据服务端返回的错误代码,判断错误类型
+                if data_dic ==1:
+                        print 'Error: Server has multi users [%s], Contact administrator please.' %user
+                        sys.exit(1)
+                elif data_dic ==2:
+                        print 'Error: Server has not found user [%s], Contact administrator please.' %user
+                        sys.exit(2)
+                else:
+                        passwd = data_dic['passwd']
+
+                # 调用密码解密方法
+                decrypt = decrypt_mode_cbc(passwd, keys).replace(' ','')
+
+                # 调用系统密码更新命令
+                passwd_update = commands.getstatusoutput("/bin/echo '%s:%s' | /usr/sbin/chpasswd" %(user,decrypt))
+                if passwd_update[0] !=0:
+                        print 'Error: System has some mistakes, Contact administrator please.'
+                else:
+                        print 'Success! User [%s] password has already changed.' %user
+        # 判断用户Ctrl+c强制退出
+        except KeyboardInterrupt:
+                print 'Users forced to cancel, byebye!'
+
+# 定义密文解密函数
+def decrypt_mode_cbc(encrypted, key, iv = keys, base64 = True):
+        encrypted = encrypted.decode('base64') if base64 is True else encrypted.decode('hex')
+        if encrypted is not '':
+                obj = AES.new(key, AES.MODE_CBC, iv)
+                return obj.decrypt(encrypted)
+        else:
+                return False
+
+# 主程序代码段
+if __name__ == '__main__':
+    # 判断脚本执行参数
+    try:
+        options = sys.argv[1]
+        # 检查输入参数是否符合规范
+        if len(sys.argv) > 3:
+            print help_text
+            sys.exit(1)
+        elif options not in ['-u','-a','-?','-h','--help'] or options in ['-?','-h','--help']:
+            print help_text
+            sys.exit()
+        elif options =='-u':
+            # 检查输入用户名是否符合规范
+            user = sys.argv[2]
+            if '-' in user:
+                print help_text
+                sys.exit(1)
+            # 检查本地是否存在需要修改的用户
+                user_check = commands.getstatusoutput('/usr/bin/id %s' %user)
+                if user_check[0] !=0:
+                        print "Error: Local System doesn't have user [%s], Try again." %user
+                        sys.exit()
+            else:
+                # 执行数据请求及密码修改
+                post_data = {'keys' : keys, 'user' : user}
+                post_action()
+        # 参数为-a时，同时修改root及admin用户口令
+        elif options == '-a':
+            # 判断用户输入更多参数异常
+            if len(sys.argv) > 2:
+                print help_text
+                exit(1)
+            local_user = ['root','admin']
+            for user in local_user:
+                post_data = {'keys' : keys, 'user' : user}
+                post_action()
+    except IndexError:
+        print help_text
+        sys.exit(1)
